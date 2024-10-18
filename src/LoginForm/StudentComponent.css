@@ -1,0 +1,81 @@
+/* General layout */
+.auth-form-container, .student-profile {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1, h2, h3 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .login-btn, .logout-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .login-btn:hover, .logout-btn:hover {
+    background-color: #45a049;
+  }
+  
+  .error-text {
+    color: red;
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .student-details {
+    text-align: left;
+  }
+  
+  .student-details p {
+    font-size: 16px;
+    margin: 8px 0;
+  }
+  
+  @media (max-width: 768px) {
+    .auth-form-container, .student-profile {
+      width: 100%;
+      padding: 10px;
+    }
+  
+    .login-btn, .logout-btn {
+      padding: 12px;
+      font-size: 16px;
+    }
+  
+    input {
+      padding: 12px;
+      font-size: 16px;
+    }
+  }
+  
