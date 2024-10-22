@@ -1,0 +1,93 @@
+/* Styles globaux */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+
+  /* background-image: ""; */
+  /* Fond bleu clair */
+  justify-content: center;
+  align-items: center;
+}
+
+/* Container pour form et les données de l'étudiant */
+.container {
+  background-color: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  /* Centrer le texte et les éléments */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Centrer horizontalement */
+}
+
+h1,
+h2 {
+  color: #005c96;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+  text-align: left;
+  /* Aligner le texte des labels à gauche */
+  width: 100%;
+  /* Prendre toute la largeur */
+}
+
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #005c96;
+  color: rgb(42, 176, 230);
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #004b7a;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+/* Centrer les éléments à l'intérieur du formulaire */
+form {
+  width: 100%;
+  /* S'assure que le formulaire prend toute la largeur du conteneur */
+  display: flex;
+  flex-direction: column;
+  /* Aligner les éléments verticalement */
+  align-items: center;
+  /* Centrer horizontalement les éléments */
+}
+
+form div {
+  width: 100%;
+  /* Chaque champ de formulaire prend toute la largeur */
+}
