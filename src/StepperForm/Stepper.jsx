@@ -7,14 +7,14 @@ import { TiTick } from "react-icons/ti";
 import "../StepperForm/stepper.css";
 
 
-const Stepper = ({ sportId, token: propToken , codeUIR }) => {
+const Stepper = ({ sportId, token: propToken , studentcodeUIR }) => {
   const steps = [ "Choisir Sport", "Choisir Match", "Réserver terrain"];
   const [success, setSuccess] = useState(null); 
   const [currentStep, setCurrentStep] = useState(1);
   const [complete, setComplete] = useState(false);
   const [selectedSport, setSelectedSport] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-console.log('the code of uir : ' , codeUIR );
+console.log('-- the code of uir -- : ' , studentcodeUIR );
 
   //todo :  useState for token : 
     // Use token passed as prop or default to empty string
@@ -109,12 +109,12 @@ const [dayBooking, setDayBooking] = useState(0);
 //todo : method for fetch sport by Id category 
 
   const fetchMatchesForCategory = async (categoryId) => {
-    console.log('The code of UIR: ', codeUIR || 'No UIR provided');
+    console.log('The code of UIR: ', studentcodeUIR || 'No UIR provided');
 
-    if (!codeUIR) {
-      setError('Code UIR is missing. Please login again.');
-      return;
-    }
+    // if (!codeUIR) {
+    //   setError('Code UIR is missing. Please login again.');
+    //   return;
+    // }
     try {
       setLoading(true);
       const response = await axios.get(`https://localhost:7125/api/Sports/category/${categoryId}`, {
@@ -148,28 +148,22 @@ const [dayBooking, setDayBooking] = useState(0);
 
     
 
-    // const studentIds = codeUIRList.split(',').map((id) => id.trim());
+
     const studentIds = studentCodeUIRList;
-  // Get the sportId from the selectedSport or the matches array
+ 
      const selectedSportObject = matches.find(match => match.id === selectedCategory);
 
      const sportId = selectedSportObject ? selectedSportObject.id : "";
      const sportName = selectedSportObject ? selectedSportObject.name : "";
 
-     console.log('selectedSportObject : is !!!', selectedSportObject);
-    console.log('sportId : is !!!', sportId);
-    console.log(' sport name  is !!!', sportName );
+   
+    console.log("studentcodeUIR :::::::  ",studentcodeUIR);
     
-    console.log('from stepper method addreservation The code of UIR: ', codeUIR || 'No UIR provided');
-
-    if (!codeUIR) {
-      setError('Code UIR is missing. Please login again.');
-      return;
-    }
+  
 
 
     const reservationData = {
-      codeUIR,
+      codeUIR: studentcodeUIR,
       sportId,
       reservationDate: new Date().toISOString(),
       dayBooking, 
@@ -179,8 +173,9 @@ const [dayBooking, setDayBooking] = useState(0);
       dateCreation: new Date().toISOString(),
       dateModification: new Date().toISOString(),
     };
+    console.log("studentcodeUIR :::::::  ",reservationData.studentcodeUIR);
 
-    console.log(reservationData.codeUIR);
+    // console.log('code uir from method add reservation :', reservationData.codeUIR);
     
 
     try {
@@ -210,6 +205,8 @@ const [dayBooking, setDayBooking] = useState(0);
       }
   };
 
+
+  //todo : --------------------------
   const handleSportSelection = (e) => {
     const selectedSportName = e.target.value;
     setSelectedSport(selectedSportName);
@@ -259,12 +256,12 @@ const [dayBooking, setDayBooking] = useState(0);
   console.log('image handling sportId : is !!!', sportId);
   console.log('image handling sportname  : is !!!', sportNames );
 
-  console.log(' stepper method fetchTimeRanges  The code of UIR: ', codeUIR || 'No UIR provided');
+  // console.log(' stepper method fetchTimeRanges  The code of UIR: ', codeUIR || 'No UIR provided');
 
-  if (!codeUIR) {
-    setError('Code UIR is missing. Please login again.');
-    return;
-  }
+  // if (!codeUIR) {
+  //   setError('Code UIR is missing. Please login again.');
+  //   return;
+  // }
     try {
       setLoading(true);
       setError(null);
@@ -400,7 +397,7 @@ const [dayBooking, setDayBooking] = useState(0);
   {currentStep === 3 && selectedSport && matches.length > 0 && (
     <form onSubmit={handleSubmitaddReservation}>
       <div>
-        <label style={{ color: 'black' }}> your Code UIR: {codeUIR}</label>
+        
         {/* <input
           className="btn btn-primary"
           type="text"

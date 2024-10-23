@@ -85,19 +85,19 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Stepper from "../StepperForm/Stepper"; 
 
-const StudentComponent = ({ userId, firstName, lastName, token, handleLogout }) => {
+const StudentComponent = ({ userId, codeUIR,firstName, lastName, token, handleLogout }) => {
 
   const [student, setStudent] = useState({
     firstName: firstName || '',
     lastName: lastName || '',
     userId: userId || '',
-    codeUIR: '', // Initially empty, to be filled from API
+    codeUIR: codeUIR || '', // Initially empty, to be filled from API
   });
 
   const [fetchedStudent, setFetchedStudent] = useState(null);
   const [error, setError] = useState('');
   const [sportId, setSportId] = useState(null);
-  const [codeUIR, setCodeUIR] = useState(''); // State to store fetched codeUIR
+  const [studentcodeUIR, setStudentCodeUIR] = useState(''); // State to store fetched codeUIR
 
   useEffect(() => {
     const addStudent = async () => {
@@ -124,7 +124,8 @@ const StudentComponent = ({ userId, firstName, lastName, token, handleLogout }) 
         console.log("- code UIR:", response.data.codeUIR);
 
         setFetchedStudent(response.data);
-        setCodeUIR(response.data.codeUIR); // Update the codeUIR state when fetched
+          // setStudentCodeUIR(response.data.codeUIR); // Update the codeUIR state when fetched
+          setStudentCodeUIR(response.data.codeUIR);
       } catch (err) {
         console.error('Error fetching student:', err);
       }
@@ -137,16 +138,17 @@ const StudentComponent = ({ userId, firstName, lastName, token, handleLogout }) 
         }
       });
     }
-  }, [userId, student, token]);
+  }, [userId, token]);
 
-  console.log('Code UIR in StudentComponent:', codeUIR || 'No code UIR found');
+   console.log('Code UIR in StudentComponent:', studentcodeUIR || 'No code UIR found');
+   console.log('Code UIR in StudentComponent:', codeUIR || 'No code UIR found');
 
   return (
     <div>
       <Stepper
         sportId={sportId}
         token={token}
-        codeUIR={codeUIR} // Pass the dynamically fetched codeUIR to Stepper
+        studentcodeUIR={studentcodeUIR} // Pass the dynamically fetched codeUIR to Stepper
       />
       <button onClick={handleLogout}>Logout</button>
     </div>
