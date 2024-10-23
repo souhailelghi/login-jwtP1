@@ -6,15 +6,6 @@ import axios from "axios";
 import { TiTick } from "react-icons/ti";
 import "../StepperForm/stepper.css";
 
-const DayOfWeekEnum = {
-    Monday: 0,
-    Tuesday: 1,
-    Wednesday: 2,
-    Thursday: 3,
-    Friday: 4,
-    Saturday: 5,
-    Sunday: 6
-  };
 
 const Stepper = ({ sportId, token: propToken }) => {
   const steps = [ "Choisir Sport", "Choisir Match", "Réserver terrain"];
@@ -25,7 +16,9 @@ const Stepper = ({ sportId, token: propToken }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
 
   //todo :  useState for token : 
-  const [token, setToken] = useState(propToken || "");
+    // Use token passed as prop or default to empty string
+    const [token, setToken] = useState(propToken || "");
+
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [tokenError, setTokenError] = useState("");
   const [sports, setSports] = useState([]);
@@ -75,19 +68,21 @@ const [dayBooking, setDayBooking] = useState(0);
 
 
 
-  const handleInputChange = (e) => {
-    setToken(e.target.value);
-  };
+  // const handleInputChange = (e) => {
+  //   setToken(e.target.value);
+  // };
 
   useEffect(() => {
   const validateToken = async () => {
-     var tokens = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJheW91YkBqb2JpbnRlY2gtdWlyLm1hIiwianRpIjoiOGNkZmNjYWItY2IzYi00Nzk4LWE0NTktMzNiMjc2YTMxYTE2IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsImV4cCI6MTcyOTgxNTI4MSwiaXNzIjoiRnJlZVRyYWluZWQifQ.w1rGPVhcIX3tyjpKaYVs3jK0Y5pRW0J7OM65M8_WSLo"
-    if (tokens) {
+  
+    if (token) {
+      console.log( "Token is : ", token);
+      
       try {
         setLoading(true);
         const response = await axios.get('https://localhost:7125/api/SportCategorys/list', {
           headers: {
-            Authorization: `Bearer ${tokens}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         console.log("Token validation successful");
@@ -105,13 +100,12 @@ const [dayBooking, setDayBooking] = useState(0);
       setTokenError("Veuillez entrer un token.");
     }
   };
-      // Automatically validate the token when the component mounts
       validateToken();
-    }, []); // The empty array ensures the effect runs only once when the component mounts
+    }, []); 
 
 
 
-
+//todo : method for fetch sport by Id category 
 
   const fetchMatchesForCategory = async (categoryId) => {
     try {
@@ -138,7 +132,7 @@ const [dayBooking, setDayBooking] = useState(0);
   };
 
 
-
+//todo : Method for Add Reservation : 
   const handleSubmitaddReservation = async (e) => {
     e.preventDefault();
     setLoading(true); 
@@ -359,12 +353,13 @@ const [dayBooking, setDayBooking] = useState(0);
                     style={{ width: '100px', height: '100px' }} 
                     onClick={fetchTimeRanges}
                   />
-                  <p>{match.name}</p>
+                  <p style={{ color: 'black' }}>{match.name}</p>
                 </div>
               ))}
             </div>
             {selectedCategory && (
-              <p className="mt-2 text-green-600">Match sélectionné : {selectedCategory} name : {sportNames} </p>
+              // <p className="mt-2 text-green-600">Match sélectionné : {selectedCategory} name : {sportNames} </p>
+              <p className="mt-2 text-green-600">Match sélectionné : {sportNames} </p>
             )}
               
           </div>
@@ -374,13 +369,13 @@ const [dayBooking, setDayBooking] = useState(0);
         {/* //todo : step 3 : ----------------------------------------------------- Form reservation :  */}
         <div>
   {loading && <p>Loading...</p>}
-  {success && <p className="success-message">{success} </p>}
-  {error && <p className="error-message">{error}</p>}
+  {success && <p className="success-message" style={{ color: 'black' }}>{success} </p>}
+  {error && <p className="error-message" style={{ color: 'red' }}>{error}</p>}
 
   {currentStep === 3 && selectedSport && matches.length > 0 && (
     <form onSubmit={handleSubmitaddReservation}>
       <div>
-        <label>Code UIR:</label>
+        <label style={{ color: 'black' }}>Code UIR:</label>
         <input
           className="btn btn-primary"
           type="text"
@@ -391,7 +386,7 @@ const [dayBooking, setDayBooking] = useState(0);
       </div>
 
       <div>
-        <h1>Select Time of {day}</h1>
+        <h1 style={{ color: 'black' }}>Select Time of {day}</h1>
         {loading && <p>Loading...</p>}
         {error && <p className="error-message">{error}</p>}
 
@@ -399,13 +394,14 @@ const [dayBooking, setDayBooking] = useState(0);
           <div>
             <form>
               {timeRanges.map((timeRange) => (
-                <div key={timeRange.id}>
+                <div style={{ color: 'black' }} key={timeRange.id}>
                   <input
                     type="radio"
                     id={`timeRange-${timeRange.id}`}
                     name="timeRange"
                     value={timeRange.id}
                     onChange={handleTimeRangeChange}
+                    required
                   />
                   <label htmlFor={`timeRange-${timeRange.id}`}>
                     {timeRange.hourStart} - {timeRange.hourEnd}
@@ -422,7 +418,7 @@ const [dayBooking, setDayBooking] = useState(0);
       </div>
 
       <div>
-        <label>Student Code UIR List:</label>
+        <label style={{ color: 'black' }}>Student Code UIR List:</label>
         {studentCodeUIRList.map((uir, index) => (
           <div key={index} style={{ display: 'flex', marginBottom: '10px' }}>
             <input

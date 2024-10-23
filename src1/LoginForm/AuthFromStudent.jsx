@@ -9,6 +9,7 @@ const StudentComponent = ({ token, userId, codeUIR, firstName, lastName, handleL
     userId: userId || '',
     codeUIR: codeUIR || '',
   });
+  const [token, setToken] = useState(propToken || "");
 
   const [fetchedStudent, setFetchedStudent] = useState(null);
   const [error, setError] = useState('');
@@ -16,7 +17,11 @@ const StudentComponent = ({ token, userId, codeUIR, firstName, lastName, handleL
   useEffect(() => {
     const addStudent = async () => {
       try {
-        const response = await axios.post('https://localhost:7125/api/Students/add', student);
+        const response = await axios.post('https://localhost:7125/api/Students/add', student,{
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
         console.log('Student added successfully!', response.data);
       } catch (err) {
         console.error('Error adding student:', err);
@@ -47,7 +52,7 @@ const StudentComponent = ({ token, userId, codeUIR, firstName, lastName, handleL
     <div>
       <h2>Student Profile</h2>
       {fetchedStudent ? (
-        <div>
+        <div >
           <h3>Student Details</h3>
           <p>First Name: {fetchedStudent.firstName}</p>
           <p>Last Name: {fetchedStudent.lastName}</p>

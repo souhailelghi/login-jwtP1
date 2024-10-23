@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './AuthFromStudent.css';
-import StudentComponent from './StudentComponent'; // Assume this is the component with validateToken
+// import './AuthFromStudent.css';
+import StudentComponent from './StudentComponent'; 
 
 const AuthFromStudent = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [token, setToken] = useState(localStorage.getItem('token') || ''); // Retrieve token from localStorage
+  const [token, setToken] = useState(localStorage.getItem('token') || ''); 
   const [studentData, setStudentData] = useState(null);
 
   useEffect(() => {
@@ -84,7 +84,7 @@ const AuthFromStudent = () => {
       ) : (
         studentData && (
           <StudentComponent
-            token={token}  // Passing token to another component
+            token={token}  
             userId={studentData.userId}
             codeUIR={studentData.codeUIR}
             firstName={studentData.firstName}
