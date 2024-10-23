@@ -7,13 +7,14 @@ import { TiTick } from "react-icons/ti";
 import "../StepperForm/stepper.css";
 
 
-const Stepper = ({ sportId, token: propToken }) => {
+const Stepper = ({ sportId, token: propToken , codeUIR }) => {
   const steps = [ "Choisir Sport", "Choisir Match", "Réserver terrain"];
   const [success, setSuccess] = useState(null); 
   const [currentStep, setCurrentStep] = useState(1);
   const [complete, setComplete] = useState(false);
   const [selectedSport, setSelectedSport] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+console.log('the code of uir : ' , codeUIR );
 
   //todo :  useState for token : 
     // Use token passed as prop or default to empty string
@@ -25,7 +26,7 @@ const Stepper = ({ sportId, token: propToken }) => {
   const [loading, setLoading] = useState(false);
 //   const [error, setError] = useState("");
   const [matches, setMatches] = useState([]); 
-  const [codeUIR, setCodeUIR] = useState('');
+  // const [codeUIR, setCodeUIR] = useState('');
     //----
   const [studentId, setStudentId] = useState('');
   const [studentCodeUIRList, setStudentCodeUIRList] = useState(['']);
@@ -108,6 +109,12 @@ const [dayBooking, setDayBooking] = useState(0);
 //todo : method for fetch sport by Id category 
 
   const fetchMatchesForCategory = async (categoryId) => {
+    console.log('The code of UIR: ', codeUIR || 'No UIR provided');
+
+    if (!codeUIR) {
+      setError('Code UIR is missing. Please login again.');
+      return;
+    }
     try {
       setLoading(true);
       const response = await axios.get(`https://localhost:7125/api/Sports/category/${categoryId}`, {
@@ -151,8 +158,14 @@ const [dayBooking, setDayBooking] = useState(0);
 
      console.log('selectedSportObject : is !!!', selectedSportObject);
     console.log('sportId : is !!!', sportId);
-    console.log('sport name  is !!!', sportName );
+    console.log(' sport name  is !!!', sportName );
     
+    console.log('from stepper method addreservation The code of UIR: ', codeUIR || 'No UIR provided');
+
+    if (!codeUIR) {
+      setError('Code UIR is missing. Please login again.');
+      return;
+    }
 
 
     const reservationData = {
@@ -166,6 +179,9 @@ const [dayBooking, setDayBooking] = useState(0);
       dateCreation: new Date().toISOString(),
       dateModification: new Date().toISOString(),
     };
+
+    console.log(reservationData.codeUIR);
+    
 
     try {
       const response = await axios.post(
@@ -230,6 +246,8 @@ const [dayBooking, setDayBooking] = useState(0);
     }
   }, [sportId, day]);
 
+
+  //todo : fetch time : 
   const fetchTimeRanges = async () => {
    // Get the sportId from the selectedSport or the matches array
    const selectedSportObject = matches.find(match => match.id === selectedCategory);
@@ -240,6 +258,13 @@ const [dayBooking, setDayBooking] = useState(0);
    console.log(' handleclickImag selectedSportObject : is !!!', selectedSportObject);
   console.log('image handling sportId : is !!!', sportId);
   console.log('image handling sportname  : is !!!', sportNames );
+
+  console.log(' stepper method fetchTimeRanges  The code of UIR: ', codeUIR || 'No UIR provided');
+
+  if (!codeUIR) {
+    setError('Code UIR is missing. Please login again.');
+    return;
+  }
     try {
       setLoading(true);
       setError(null);
@@ -375,14 +400,14 @@ const [dayBooking, setDayBooking] = useState(0);
   {currentStep === 3 && selectedSport && matches.length > 0 && (
     <form onSubmit={handleSubmitaddReservation}>
       <div>
-        <label style={{ color: 'black' }}>Code UIR:</label>
-        <input
+        <label style={{ color: 'black' }}> your Code UIR: {codeUIR}</label>
+        {/* <input
           className="btn btn-primary"
           type="text"
           value={codeUIR}
           onChange={(e) => setCodeUIR(e.target.value)}
           required
-        />
+        /> */}
       </div>
 
       <div>
