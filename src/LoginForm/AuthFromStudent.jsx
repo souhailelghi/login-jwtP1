@@ -37,7 +37,8 @@ const AuthFromStudent = () => {
         lastName,
       });
 
-      console.log('Login successful, student data:', { userId, codeUIR, firstName, lastName });
+      // console.log('Login successful, student data:', { userId, codeUIR, firstName, lastName });
+      console.log('Login successful');
     } catch (error) {
       setErrorMessage(error.response?.data?.Message || 'Registration/Login failed');
     }

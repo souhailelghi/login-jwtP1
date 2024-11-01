@@ -14,7 +14,7 @@ const Stepper = ({ sportId, token: propToken , studentcodeUIR }) => {
   const [complete, setComplete] = useState(false);
   const [selectedSport, setSelectedSport] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-console.log('-- the code of uir -- : ' , studentcodeUIR );
+
 
   //todo :  useState for token : 
     // Use token passed as prop or default to empty string
@@ -69,15 +69,13 @@ const [dayBooking, setDayBooking] = useState(0);
 
 
 
-  // const handleInputChange = (e) => {
-  //   setToken(e.target.value);
-  // };
+ 
 
   useEffect(() => {
   const validateToken = async () => {
   
     if (token) {
-      console.log( "Token is : ", token);
+   
       
       try {
         setLoading(true);
@@ -109,23 +107,13 @@ const [dayBooking, setDayBooking] = useState(0);
 //todo : method for fetch sport by Id category 
 
   const fetchMatchesForCategory = async (categoryId) => {
-    console.log('The code of UIR: ', studentcodeUIR || 'No UIR provided');
-
-    // if (!codeUIR) {
-    //   setError('Code UIR is missing. Please login again.');
-    //   return;
-    // }
+  
     try {
       setLoading(true);
       const response = await axios.get(`https://localhost:7125/api/Sports/category/${categoryId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      });
-      console.log("data cat :" ,response);
-        // Assuming response.data is an array of sports
-    response.data.forEach(sport => {
-        console.log("Get Sport ID from method fetchMatchesForCategory :", sport.id); 
       });
    
       
@@ -157,7 +145,7 @@ const [dayBooking, setDayBooking] = useState(0);
      const sportName = selectedSportObject ? selectedSportObject.name : "";
 
    
-    console.log("studentcodeUIR :::::::  ",studentcodeUIR);
+  
     
   
 
@@ -173,9 +161,9 @@ const [dayBooking, setDayBooking] = useState(0);
       dateCreation: new Date().toISOString(),
       dateModification: new Date().toISOString(),
     };
-    console.log("studentcodeUIR :::::::  ",reservationData.studentcodeUIR);
+  
 
-    // console.log('code uir from method add reservation :', reservationData.codeUIR);
+
     
 
     try {
@@ -188,7 +176,7 @@ const [dayBooking, setDayBooking] = useState(0);
           },
         }
       );
-      console.log('Reservation created:', response.data);
+      // console.log('Reservation created:', response.data);
       setSuccess(response.data);
       setSportName(sportName)
         setSportName(sportName);
@@ -198,7 +186,12 @@ const [dayBooking, setDayBooking] = useState(0);
     } catch (error) {
      
       console.error('Error creating reservation:', error);
-      setError("Failed to create reservation.");
+       // Check if error response has a specific message
+    if (error.response && error.response.data) {
+      setError(error.response.data); // Set error message from server response
+    } else {
+      setError("Failed to create reservation."); // Default error message
+    }
       setSuccess(null); // Clear any previous success
     }finally {
         setLoading(false); // Stop loading after request completes
@@ -213,8 +206,6 @@ const [dayBooking, setDayBooking] = useState(0);
     setSelectedCategory(""); 
 
     const selectedSportObject = sports.find(sport => sport.name === selectedSportName);
-    console.log('selected sport : ', selectedSportObject);
-    console.log('selected sport id : ', selectedSportObject.id);
     
     if (selectedSportObject && selectedSportObject.id) {
       fetchMatchesForCategory(selectedSportObject.id);
@@ -231,7 +222,7 @@ const [dayBooking, setDayBooking] = useState(0);
   useEffect(() => {
     const today = new Date();
     const dayOfWeek = today.toLocaleDateString('en-US', { weekday: 'long' });
-    console.log(dayOfWeek);
+    // console.log(dayOfWeek);
     
     setDay(dayOfWeek);
   }, []);
@@ -252,16 +243,9 @@ const [dayBooking, setDayBooking] = useState(0);
    const sportId = selectedSportObject ? selectedSportObject.id : "";
    const sportNames = selectedSportObject ? selectedSportObject.name : "";
  
-   console.log(' handleclickImag selectedSportObject : is !!!', selectedSportObject);
-  console.log('image handling sportId : is !!!', sportId);
-  console.log('image handling sportname  : is !!!', sportNames );
+ 
 
-  // console.log(' stepper method fetchTimeRanges  The code of UIR: ', codeUIR || 'No UIR provided');
-
-  // if (!codeUIR) {
-  //   setError('Code UIR is missing. Please login again.');
-  //   return;
-  // }
+ 
     try {
       setLoading(true);
       setError(null);
@@ -275,7 +259,7 @@ const [dayBooking, setDayBooking] = useState(0);
           },
         }
       );
-      console.log(response.data);
+      // console.log(response.data);
       setSportNames( sportNames)
       setTimeRanges(response.data);
     } catch (err) {
@@ -396,17 +380,6 @@ const [dayBooking, setDayBooking] = useState(0);
 
   {currentStep === 3 && selectedSport && matches.length > 0 && (
     <form onSubmit={handleSubmitaddReservation}>
-      <div>
-        
-        {/* <input
-          className="btn btn-primary"
-          type="text"
-          value={codeUIR}
-          onChange={(e) => setCodeUIR(e.target.value)}
-          required
-        /> */}
-      </div>
-
       <div>
         <h1 style={{ color: 'black' }}>Select Time of {day}</h1>
         {loading && <p>Loading...</p>}
